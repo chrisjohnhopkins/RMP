@@ -21,14 +21,10 @@
       </span>
     </a>
     <a 
-      href=""
-      class="IconLike">
-      <!-- <span class="IconHeart IconHeart--unlike">
-            <i class="fas fa-heart"></i>
-          </span>
-          -->
-      <span class="IconHeart IconHeart--like">
-        <i class="far fa-heart"/>
+      @click ="shortlist(job)"
+      v-bind:class ="{ active: isActive }">
+      <span>
+        <i class="fa-heart" v-bind:class ="{ far: isActive, fas: !isActive }"></i>
       </span>
     </a>
   </div>
@@ -42,12 +38,27 @@ export default {
       type: Object,
       default: () => {},
     },
+    jobIndex:{
+      type: Number
+    }
   },
   methods: {
     img_alt (name) {
       return `${name} logo`
+    },
+    shortlist(job, jobIndex){
+      this.$store.commit('shortlist', job)
+      this.toggle()
+    },
+    toggle() {
+      this.isActive = !this.isActive;
     }
-  }
+  },
+  data (job) {
+    return {
+      isActive: this.$store.getters.isShortlisted
+    }
+  },
 }
 </script>
 
@@ -56,6 +67,7 @@ export default {
 
   .Search-result {
     display: flex;
+    width: 100%;
   }
   
   a {
@@ -78,7 +90,7 @@ export default {
 
   .Job-link {
     padding-left: 15px;
-    width: ~'calc(100% - 130px)';
+    width: 100%;
   }
 
   .IconHeart {

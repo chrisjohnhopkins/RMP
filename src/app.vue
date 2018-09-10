@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <header-layout/>
-    <search-page-layout/>
+    <HeaderLayout/>
+    <SearchPageLayout/>
   </div>
 </template>
 
@@ -13,7 +13,7 @@ import SearchResult from './components/SearchResult'
 export default {
   name: 'App',
   components: {
-    'search-page-layout': SearchPageLayout,
+    'SearchPageLayout': SearchPageLayout,
     'HeaderLayout': HeaderLayout,
     'SearchResult': SearchResult,
   },
