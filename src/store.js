@@ -5,21 +5,29 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
   state: {
-    jobs: null,
+    following: [],
     shortlisted: [],
-    following: []
+    jobs: null,
   },
 
   mutations: {
     pushJobs (state, jobs) {
       state.jobs = jobs
+    },
+    shortlist (state, job) {
+      if (this.getters.isShortlisted(job) > 0){
+        state.shortlisted = state.shortlisted.filter((item)=>{
+          item.id != job.id
+        })
+      } else {
+        state.shortlisted.push(job);
+      }
     }
   },
-
   getters: {
-  },
-
-  actions: {
+    isShortlisted: (state) => (job)=> {
+      return state.shortlisted.filter(item => item.id == job.id).length
+    }
   }
 })
 

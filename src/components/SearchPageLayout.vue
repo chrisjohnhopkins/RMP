@@ -4,8 +4,8 @@
       v-if="$store.state.jobs && $store.state.jobs.length" 
       class="Job">
       <li 
-        v-for ="job in $store.state.jobs"
-        :key="job.id"
+        v-for ="(job, index) in $store.state.jobs"
+        :key="index"
         class="Job-item Group"
       >
         <SearchResult :job="job"/>
