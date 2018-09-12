@@ -47,8 +47,34 @@ export default {
       return `${name} logo`
     },
     shortlist(job, jobIndex){
-      this.$store.commit('shortlist', job)
+      //this.$store.commit('shortlist', job)
+
       this.toggle()
+
+      this.clicks += 1;
+      let clicksWhenCalled = this.clicks;
+      let timer = setTimeout(()=> {
+        if (this.clicks == clicksWhenCalled){
+          //alert('shortlisted')
+          if (!this.$store.getters.isShortlisted(job)){
+            console.log('hello')
+            this.job.shortlisted = true;
+            this.$store.commit('pushToArray', this.job, 'shortlisted');
+          } else {
+            // otherwise unshortlist it
+            this.job.shortlisted = false;
+            this.$store.commit('removeFromArray', this.job, 'shortlisted');
+            alert('unshortlisted')
+          }
+          this.$store.commit('pushToArray', this.job, 'outgoing_notifications');
+        
+        } else {
+          clearTimeout(timer)
+          timer();
+        }
+      
+      },3000);
+
     },
     toggle() {
       this.isActive = !this.isActive;
@@ -56,7 +82,8 @@ export default {
   },
   data (job) {
     return {
-      isActive: this.$store.getters.isShortlisted
+      isActive: this.$store.getters.isShortlisted,
+      clicks: 0
     }
   },
 }

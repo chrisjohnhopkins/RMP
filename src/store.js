@@ -7,6 +7,7 @@ const store = new Vuex.Store({
   state: {
     following: [],
     shortlisted: [],
+    outgoing_notifications: [],
     jobs: null,
   },
 
@@ -14,19 +15,20 @@ const store = new Vuex.Store({
     pushJobs (state, jobs) {
       state.jobs = jobs
     },
-    shortlist (state, job) {
-      if (this.getters.isShortlisted(job) > 0){
-        state.shortlisted = state.shortlisted.filter((item)=>{
-          item.id != job.id
-        })
-      } else {
-        state.shortlisted.push(job);
-      }
+    pushToArray (state, job, x) {
+      state['shortlisted'].push(job)
+      console.log(this)
+    },
+    removeFromArray (state, job, array) {
+      console.log('state  :', state, 'job: ', job, 'array', array)
+      state[array] = state[array].filter((item)=>{
+        item.id != job.id
+      })
     }
   },
   getters: {
     isShortlisted: (state) => (job)=> {
-      return state.shortlisted.filter(item => item.id == job.id).length
+      return state.shortlisted.filter(item => item.id == job.id).length > 0
     }
   }
 })
